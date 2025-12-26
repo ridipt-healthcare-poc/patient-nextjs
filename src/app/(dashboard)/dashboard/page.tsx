@@ -33,6 +33,7 @@ import {
     FiCheckCircle,
     FiClock,
 } from "react-icons/fi";
+import { useRouter } from "next/navigation";
 
 const quickActions = [
     {
@@ -59,6 +60,7 @@ const quickActions = [
 ];
 
 export default function DashboardPage() {
+    const router = useRouter();
     const [loading, setLoading] = useState(true);
     const [stats, setStats] = useState({
         upcomingAppointments: 0,
@@ -106,7 +108,7 @@ export default function DashboardPage() {
                             doctorName: apt.doctorId?.name || 'Unknown Doctor',
                             specialty: apt.doctorId?.specialization || 'N/A',
                             date: new Date(apt.appointmentDate).toISOString().split('T')[0],
-                            time: apt.slot?.start ? new Date(apt.slot.start).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) : 'TBD',
+                            time: apt.slot?.start ? new Date(apt.slot.start).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'TBD',
                             status: apt.status,
                         }));
 
@@ -206,7 +208,13 @@ export default function DashboardPage() {
                             Track your appointments, connect with doctors, and manage your health records all in one place.
                         </Text>
                         <HStack spacing={4} mt={6}>
-                            <Button colorScheme="whiteAlpha" bg="white" color="teal.600" _hover={{ bg: "teal.50" }}>
+                            <Button
+                                colorScheme="whiteAlpha"
+                                bg="white"
+                                color="teal.600"
+                                _hover={{ bg: "teal.50" }}
+                                onClick={() => router.push('/book-appointment')}
+                            >
                                 Book Appointment
                             </Button>
                             <Button
@@ -214,6 +222,7 @@ export default function DashboardPage() {
                                 color="white"
                                 borderColor="whiteAlpha.600"
                                 _hover={{ bg: "whiteAlpha.200" }}
+                                onClick={() => router.push('/doctors')}
                             >
                                 View Doctors
                             </Button>
@@ -269,6 +278,10 @@ export default function DashboardPage() {
                         boxShadow="0 1px 3px rgba(15, 23, 42, 0.12)"
                         _hover={{ transform: "translateY(-4px)", boxShadow: cardShadow }}
                         transition="all 0.25s ease"
+                        onClick={() => {
+                            if (action.label === "Book Appointment") router.push('/book-appointment');
+                            else if (action.label === "View Doctors") router.push('/doctors');
+                        }}
                     >
                         <Flex align="center" justify="space-between">
                             <HStack spacing={3} align="flex-start">

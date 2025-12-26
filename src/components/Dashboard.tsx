@@ -37,6 +37,7 @@ import {
     FiUsers,
     FiSearch,
     FiHelpCircle,
+    FiMapPin,
 } from "react-icons/fi";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -46,6 +47,7 @@ const sidebarLinks = [
     { name: "Dashboard", icon: FiHome, path: "/dashboard" },
     { name: "Appointments", icon: FiCalendar, path: "/appointments" },
     { name: "My Doctors", icon: FiUsers, path: "/doctors" },
+    { name: "My Facilities", icon: FiMapPin, path: "/facilities" },
     { name: "Settings", icon: FiSettings, path: "/settings" },
 ];
 

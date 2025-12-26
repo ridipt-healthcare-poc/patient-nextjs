@@ -53,6 +53,18 @@ export const patientApi = {
 
   // Get patient doctors
   getDoctors: () => api.get('/api/patient-app/doctors'),
+
+  // Get patient facilities
+  getFacilities: () => api.get('/api/patient-app/facilities'),
+
+  // Get doctors by facility
+  getDoctorsByFacility: (facilityId: string) => api.get(`/api/patient-app/facilities/${facilityId}/doctors`),
+
+  // Get doctor slots for a specific date
+  getDoctorSlots: (doctorId: string, date: string) => api.get(`/api/patient-app/doctors/${doctorId}/slots`, { params: { date } }),
+
+  // Create appointment
+  createAppointment: (appointmentData: any) => api.post('/api/patient-app/appointments', appointmentData),
 };
 
 export default api;
