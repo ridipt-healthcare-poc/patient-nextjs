@@ -3,6 +3,8 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import axios from 'axios';
 
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080';
+
 interface User {
     _id: string;
     name: string;
@@ -52,7 +54,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     const sendOTP = async (mobile: string) => {
         try {
-            const response = await axios.post('http://localhost:8080/api/patients/auth/send-otp', { mobile });
+            const response = await axios.post(`${API_BASE_URL}/api/patients/auth/send-otp`, { mobile });
             return response.data;
         } catch (error) {
             throw error;
@@ -61,7 +63,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     const loginWithOTP = async (mobile: string, otp: string) => {
         try {
-            const response = await axios.post('http://localhost:8080/api/patients/auth/verify-otp', { mobile, otp });
+            const response = await axios.post(`${API_BASE_URL}/api/patients/auth/verify-otp`, { mobile, otp });
             const { token: newToken, patient } = response.data;
 
             setToken(newToken);
@@ -89,7 +91,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
                 facilityType: "Hospital" // or "Clinic"
             };
 
-            const response = await axios.post('http://localhost:8080/api/patients', patientData, {
+            const response = await axios.post(`${API_BASE_URL}/api/patients`, patientData, {
                 headers: {
                     'Authorization': `Bearer YOUR_FACILITY_TOKEN` // You'll need facility auth for creating patients
                 }

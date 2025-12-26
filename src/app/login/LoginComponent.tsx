@@ -51,6 +51,8 @@ import { useRouter } from "next/navigation";
 import { useAuth } from "../../contexts/AuthContext";
 import axios from "axios";
 
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080';
+
 // 🎨 Patient-themed color palette (softer, warmer tones)
 const PRIMARY_COLOR = "#0F4C75";
 const PRIMARY_GRADIENT = "linear(to-br, #06B6D4 0%, #0F4C75 100%)";
@@ -196,7 +198,7 @@ const Login = () => {
         setResetLoading(true);
         try {
             const res = await axios.post(
-                "http://localhost:8080/api/patient/auth/forgot-password",
+                `${API_BASE_URL}/api/patient/auth/forgot-password`,
                 { email: forgotEmail }
             );
             toast({
@@ -236,7 +238,7 @@ const Login = () => {
         setResetLoading(true);
         try {
             await axios.post(
-                `http://localhost:8080/api/patient/auth/reset-password/${forgotToken}`,
+                `${API_BASE_URL}/api/patient/auth/reset-password/${forgotToken}`,
                 { newPassword }
             );
             toast({
