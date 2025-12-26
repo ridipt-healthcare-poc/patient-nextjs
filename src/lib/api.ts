@@ -39,20 +39,20 @@ api.interceptors.response.use(
 
 export const patientApi = {
   // Get patient dashboard stats
-  getDashboardStats: () => api.get('/patient-app/stats'),
+  getDashboardStats: () => api.get('/api/patient-app/stats'),
 
   // Get patient appointments
-  getAppointments: () => api.get('/patient-app/appointments'),
+  getAppointments: () => api.get('/api/patient-app/appointments'),
 
   // Get single appointment by ID
-  getAppointmentById: (id: string) => api.get(`/patient-app/appointments/${id}`),
+  getAppointmentById: (id: string) => api.get(`/api/patient-app/appointments/${id}`),
 
   // Cancel appointment
   cancelAppointment: (id: string, reason?: string) =>
-    api.post(`/patient-app/appointments/${id}/cancel`, { cancellationReason: reason }),
+    api.post(`/api/patient-app/appointments/${id}/cancel`, { cancellationReason: reason }),
 
   // Get patient doctors
-  getDoctors: () => api.get('/patient-app/doctors'),
+  getDoctors: () => api.get('/api/patient-app/doctors'),
 };
 
 export default api;
