@@ -48,6 +48,10 @@ export default function FacilitiesPage() {
 
     const cardBg = useColorModeValue("white", "gray.800");
     const borderColor = useColorModeValue("gray.200", "gray.700");
+    const headingColor = useColorModeValue("teal.700", "teal.200");
+    const emptyStateBg = useColorModeValue("gray.50", "gray.700");
+    const emptyStateBorder = useColorModeValue("gray.300", "gray.600");
+    const iconBg = useColorModeValue("teal.50", "teal.900");
 
     useEffect(() => {
         fetchFacilities();
@@ -103,7 +107,7 @@ export default function FacilitiesPage() {
     return (
         <Box>
             <VStack align="flex-start" spacing={2} mb={8}>
-                <Heading fontSize="2xl" color={useColorModeValue("teal.700", "teal.200")}>
+                <Heading fontSize="2xl" color={headingColor}>
                     My Registered Facilities
                 </Heading>
                 <Text color="gray.500">
@@ -114,12 +118,12 @@ export default function FacilitiesPage() {
             {facilities.length === 0 ? (
                 <Box
                     p={12}
-                    bg={useColorModeValue("gray.50", "gray.700")}
+                    bg={emptyStateBg}
                     borderRadius="2xl"
                     textAlign="center"
                     borderWidth={2}
                     borderStyle="dashed"
-                    borderColor={useColorModeValue("gray.300", "gray.600")}
+                    borderColor={emptyStateBorder}
                 >
                     <Icon as={FaHospital} boxSize={12} color="gray.400" mb={4} />
                     <Text fontSize="lg" fontWeight="semibold" color="gray.600" mb={2}>
@@ -164,7 +168,7 @@ export default function FacilitiesPage() {
                                         <Box
                                             p={3}
                                             borderRadius="xl"
-                                            bg={useColorModeValue("teal.50", "teal.900")}
+                                            bg={iconBg}
                                             color="teal.500"
                                         >
                                             <Icon

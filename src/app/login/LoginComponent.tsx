@@ -366,7 +366,7 @@ const Login = () => {
                                 </Box>
                                 <Box>
                                     <Text fontWeight="bold" letterSpacing="wide">
-                                        MedSparsh
+                                        Patient Portal
                                     </Text>
                                     <Text fontSize="xs">
                                         Health Care Digitalized
@@ -809,7 +809,7 @@ const Login = () => {
                                 <Icon as={FaPhone} />
                                 <Text>+1 (800) 555-0123</Text>
                             </HStack>
-                            <Text>support@medsparsh.com</Text>
+                            <Text>support@healthcare.com</Text>
                         </Stack>
                     </VStack>
                 </Box>

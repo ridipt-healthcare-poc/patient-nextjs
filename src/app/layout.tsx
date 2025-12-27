@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Providers } from "./providers";
 
 export const metadata: Metadata = {
-    title: "Patient Portal - MedSparsh",
+    title: "Patient Portal",
     description: "Healthcare digitalized - Patient portal for managing appointments and health records",
 };
 

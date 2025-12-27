@@ -38,6 +38,13 @@ export default function AppointmentsPage() {
     const toast = useToast();
     const router = useRouter();
     const cardBg = useColorModeValue("white", "gray.800");
+    const borderColor = useColorModeValue("gray.200", "gray.700");
+    const headingColor = useColorModeValue("teal.700", "teal.200");
+    const textColor = useColorModeValue("gray.800", "white");
+    const reasonBg = useColorModeValue("gray.50", "gray.700");
+    const menuHoverBg = useColorModeValue("gray.100", "gray.700");
+    const emptyStateBg = useColorModeValue("gray.50", "gray.700");
+    const emptyStateBorder = useColorModeValue("gray.300", "gray.600");
 
     useEffect(() => {
         fetchAppointments();
@@ -138,7 +145,7 @@ export default function AppointmentsPage() {
             borderRadius="2xl"
             boxShadow="sm"
             borderWidth={1}
-            borderColor={useColorModeValue("gray.200", "gray.700")}
+            borderColor={borderColor}
             _hover={{
                 boxShadow: "xl",
                 transform: "translateY(-4px)",
@@ -173,7 +180,7 @@ export default function AppointmentsPage() {
 
                 <VStack align="flex-start" spacing={3} flex={1}>
                     <Box>
-                        <Text fontWeight="bold" fontSize="lg" color={useColorModeValue("gray.800", "white")}>
+                        <Text fontWeight="bold" fontSize="lg" color={textColor}>
                             {appointment.doctorId?.name || 'Unknown Doctor'}
                         </Text>
                         <Text fontSize="sm" color="gray.500">
@@ -217,7 +224,7 @@ export default function AppointmentsPage() {
                     {appointment.reasonForVisit && (
                         <Box
                             p={3}
-                            bg={useColorModeValue("gray.50", "gray.700")}
+                            bg={reasonBg}
                             borderRadius="lg"
                             width="full"
                         >
@@ -250,7 +257,7 @@ export default function AppointmentsPage() {
                             variant="ghost"
                             size="sm"
                             onClick={(e) => e.stopPropagation()}
-                            _hover={{ bg: useColorModeValue("gray.100", "gray.700") }}
+                            _hover={{ bg: menuHoverBg }}
                         />
                         <Portal>
                             <MenuList zIndex={1500} boxShadow="xl">
@@ -284,7 +291,7 @@ export default function AppointmentsPage() {
         <Box>
             <HStack justify="space-between" mb={6}>
                 <Box>
-                    <Heading fontSize="2xl" mb={2} color={useColorModeValue("teal.700", "teal.200")}>
+                    <Heading fontSize="2xl" mb={2} color={headingColor}>
                         My Appointments
                     </Heading>
                     <Text color="gray.500">
@@ -312,12 +319,12 @@ export default function AppointmentsPage() {
                         {upcomingAppointments.length === 0 ? (
                             <Box
                                 p={12}
-                                bg={useColorModeValue("gray.50", "gray.700")}
+                                bg={emptyStateBg}
                                 borderRadius="2xl"
                                 textAlign="center"
                                 borderWidth={2}
                                 borderStyle="dashed"
-                                borderColor={useColorModeValue("gray.300", "gray.600")}
+                                borderColor={emptyStateBorder}
                             >
                                 <Icon as={FiCalendar} boxSize={12} color="gray.400" mb={4} />
                                 <Text fontSize="lg" fontWeight="semibold" color="gray.600" mb={2}>
@@ -340,12 +347,12 @@ export default function AppointmentsPage() {
                         {pastAppointments.length === 0 ? (
                             <Box
                                 p={12}
-                                bg={useColorModeValue("gray.50", "gray.700")}
+                                bg={emptyStateBg}
                                 borderRadius="2xl"
                                 textAlign="center"
                                 borderWidth={2}
                                 borderStyle="dashed"
-                                borderColor={useColorModeValue("gray.300", "gray.600")}
+                                borderColor={emptyStateBorder}
                             >
                                 <Icon as={FiCalendar} boxSize={12} color="gray.400" mb={4} />
                                 <Text fontSize="lg" fontWeight="semibold" color="gray.600" mb={2}>

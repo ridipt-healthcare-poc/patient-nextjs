@@ -48,6 +48,7 @@ const sidebarLinks = [
     { name: "Appointments", icon: FiCalendar, path: "/appointments" },
     { name: "My Doctors", icon: FiUsers, path: "/doctors" },
     { name: "My Facilities", icon: FiMapPin, path: "/facilities" },
+    { name: "Profile", icon: FiUser, path: "/profile" },
     { name: "Settings", icon: FiSettings, path: "/settings" },
 ];
 
@@ -349,14 +350,13 @@ const AppBar: React.FC<AppBarProps> = ({ onOpen, user }) => {
                                 name={user?.fullName || "Patient"}
                                 src={user?.profileImage || ""}
                             />
-                            <VStack display={{ base: "none", md: "flex" }} spacing="0" align="flex-start">
-                                <Text fontSize="sm" fontWeight="600">
-                                    {user?.fullName || "Patient"}
-                                </Text>
-                                <Text fontSize="xs" color="gray.500">
-                                    {user?.email || "patient@example.com"}
-                                </Text>
-                            </VStack>
+                            <Text
+                                display={{ base: "none", md: "block" }}
+                                fontSize="sm"
+                                fontWeight="600"
+                            >
+                                {user?.fullName || "Patient"}
+                            </Text>
                         </HStack>
                     </MenuButton>
                     <MenuList boxShadow="xl" border="1px solid" borderColor={appBarBorderColor}>
