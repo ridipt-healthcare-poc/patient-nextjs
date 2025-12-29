@@ -28,6 +28,7 @@ import {
     useDisclosure,
 } from "@chakra-ui/react";
 import { FiArrowLeft, FiCalendar, FiMapPin, FiClock, FiUser, FiPhone, FiMail } from "react-icons/fi";
+import PrescriptionCard from "@/components/PrescriptionCard";
 
 export default function AppointmentDetailsPage() {
     const params = useParams();
@@ -43,10 +44,18 @@ export default function AppointmentDetailsPage() {
     const [appointment, setAppointment] = useState<any>(null);
     const [loading, setLoading] = useState(true);
     const [cancellationReason, setCancellationReason] = useState('');
+    const [prescription, setPrescription] = useState<any>(null);
+    const [loadingPrescription, setLoadingPrescription] = useState(false);
 
     useEffect(() => {
         fetchAppointmentDetails();
     }, [params.id]);
+
+    useEffect(() => {
+        if (appointment?.prescriptionId) {
+            fetchPrescription();
+        }
+    }, [appointment]);
 
     const fetchAppointmentDetails = async () => {
         try {
@@ -65,6 +74,32 @@ export default function AppointmentDetailsPage() {
             });
         } finally {
             setLoading(false);
+        }
+    };
+
+    const fetchPrescription = async () => {
+        if (!appointment?.prescriptionId) return;
+
+        setLoadingPrescription(true);
+        try {
+            const token = localStorage.getItem('patientToken');
+            const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080/api';
+            const response = await fetch(
+                `${API_URL}/prescriptions/patient/${appointment.prescriptionId}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }
+            );
+            const data = await response.json();
+            if (data.success) {
+                setPrescription(data.data);
+            }
+        } catch (error) {
+            console.error('Error fetching prescription:', error);
+        } finally {
+            setLoadingPrescription(false);
         }
     };
 
@@ -280,6 +315,28 @@ export default function AppointmentDetailsPage() {
                     )}
                 </VStack>
             </Box>
+
+            {/* Prescription Section */}
+            {(appointment.status === 'Confirmed' || appointment.status === 'Completed') && (
+                <Box bg={cardBg} p={8} borderRadius="xl" boxShadow="lg" mt={6}>
+                    <VStack align="stretch" spacing={4}>
+                        <Text fontSize="sm" color="gray.500">PRESCRIPTION</Text>
+                        <Divider />
+
+                        {loadingPrescription ? (
+                            <Center py={8}>
+                                <Spinner size="lg" color="teal.500" />
+                            </Center>
+                        ) : prescription ? (
+                            <PrescriptionCard prescription={prescription} />
+                        ) : (
+                            <Text color="gray.500" textAlign="center" py={8}>
+                                No prescription issued yet for this appointment.
+                            </Text>
+                        )}
+                    </VStack>
+                </Box>
+            )}
 
             {/* Cancel Confirmation Dialog */}
             <AlertDialog

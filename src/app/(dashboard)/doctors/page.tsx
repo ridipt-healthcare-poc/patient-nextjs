@@ -32,6 +32,9 @@ export default function DoctorsPage() {
 
     const cardBg = useColorModeValue("white", "gray.800");
     const borderColor = useColorModeValue("gray.200", "gray.700");
+    const headingColor = useColorModeValue("teal.700", "teal.200");
+    const emptyStateBg = useColorModeValue("gray.50", "gray.700");
+    const emptyStateBorder = useColorModeValue("gray.300", "gray.600");
 
     useEffect(() => {
         fetchDoctors();
@@ -74,7 +77,7 @@ export default function DoctorsPage() {
         <Box>
             <VStack align="flex-start" spacing={6} mb={8}>
                 <Box>
-                    <Heading fontSize="2xl" mb={2} color={useColorModeValue("teal.700", "teal.200")}>
+                    <Heading fontSize="2xl" mb={2} color={headingColor}>
                         My Doctors
                     </Heading>
                     <Text color="gray.500">
@@ -101,12 +104,12 @@ export default function DoctorsPage() {
             {filteredDoctors.length === 0 ? (
                 <Box
                     p={12}
-                    bg={useColorModeValue("gray.50", "gray.700")}
+                    bg={emptyStateBg}
                     borderRadius="2xl"
                     textAlign="center"
                     borderWidth={2}
                     borderStyle="dashed"
-                    borderColor={useColorModeValue("gray.300", "gray.600")}
+                    borderColor={emptyStateBorder}
                 >
                     <Icon as={FiUser} boxSize={12} color="gray.400" mb={4} />
                     <Text fontSize="lg" fontWeight="semibold" color="gray.600" mb={2}>
