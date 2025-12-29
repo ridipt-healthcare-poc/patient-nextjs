@@ -5,7 +5,8 @@ import { useState, useEffect } from 'react';
 import { FiUpload, FiFile, FiDownload, FiTrash2, FiFileText } from 'react-icons/fi';
 import axios from 'axios';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080/api';
+const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080';
+const API_URL = baseUrl.endsWith('/api') ? baseUrl : `${baseUrl}/api`;
 
 interface Report {
     _id: string;
@@ -184,7 +185,6 @@ export default function ReportsPage() {
             if (response.data.success) {
                 const fileUrl = response.data.data.fileUrl;
 
-                // Construct proper URL for local files
                 const downloadUrl = fileUrl.startsWith('http')
                     ? fileUrl
                     : `http://localhost:8080${fileUrl}`;
