@@ -30,20 +30,10 @@ export default function PrescriptionsPage() {
 
     const fetchPrescriptions = async () => {
         try {
-            const token = localStorage.getItem('patientToken');
-            const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080';
-            const API_URL = baseUrl.endsWith('/api') ? baseUrl : `${baseUrl}/api`;
-            const response = await fetch(
-                `${API_URL}/prescriptions/patient/my-prescriptions`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                }
-            );
-            const data = await response.json();
-            if (data.success) {
-                setPrescriptions(data.data || []);
+            const api = await import('../../../lib/api');
+            const response = await api.patientApi.getPrescriptions();
+            if (response.data.success) {
+                setPrescriptions(response.data.data || []);
             }
         } catch (error) {
             console.error('Error fetching prescriptions:', error);

@@ -1,6 +1,12 @@
 import axios from 'axios';
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080';
+const getBaseUrl = () => {
+  const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080';
+  // Ensure we don't have a trailing /api in the base URL, as endpoints add it
+  return baseUrl.endsWith('/api') ? baseUrl.slice(0, -4) : baseUrl;
+};
+
+const API_BASE_URL = getBaseUrl();
 
 const api = axios.create({
   baseURL: API_BASE_URL,
@@ -71,6 +77,20 @@ export const patientApi = {
 
   // Update patient profile
   updateProfile: (profileData: any) => api.put('/api/patient-app/profile', profileData),
+
+  // Prescription endpoints
+  getPrescriptions: () => api.get('/api/prescriptions/patient/my-prescriptions'),
+  getPrescriptionById: (id: string) => api.get(`/api/prescriptions/patient/${id}`),
+
+  // Report endpoints
+  getReports: () => api.get('/api/patient/reports'),
+  getReportById: (id: string) => api.get(`/api/patient/reports/${id}`),
+  uploadReport: (formData: FormData, onUploadProgress: (progressEvent: any) => void) =>
+    api.post('/api/patient/reports/upload', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+      onUploadProgress,
+    }),
+  deleteReport: (id: string) => api.delete(`/api/patient/reports/${id}`),
 };
 
 export default api;

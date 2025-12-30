@@ -5,8 +5,7 @@ import { useState, useEffect } from 'react';
 import { FiUpload, FiFile, FiDownload, FiTrash2, FiFileText } from 'react-icons/fi';
 import axios from 'axios';
 
-const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080';
-const API_URL = baseUrl.endsWith('/api') ? baseUrl : `${baseUrl}/api`;
+// Use centralized API service for operations
 
 interface Report {
     _id: string;
@@ -48,10 +47,8 @@ export default function ReportsPage() {
 
     const fetchReports = async () => {
         try {
-            const token = localStorage.getItem('patientToken');
-            const response = await axios.get(`${API_URL}/patient/reports`, {
-                headers: { Authorization: `Bearer ${token}` }
-            });
+            const api = await import('../../../lib/api');
+            const response = await api.patientApi.getReports();
 
             if (response.data.success) {
                 setReports(response.data.data);
@@ -128,19 +125,12 @@ export default function ReportsPage() {
         formData.append('notes', notes);
 
         try {
-            const token = localStorage.getItem('patientToken');
-
-            const response = await axios.post(`${API_URL}/patient/reports/upload`, formData, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                    // Don't set Content-Type - let axios set it with boundary
-                },
-                onUploadProgress: (progressEvent) => {
-                    const progress = progressEvent.total
-                        ? Math.round((progressEvent.loaded * 100) / progressEvent.total)
-                        : 0;
-                    setUploadProgress(progress);
-                }
+            const api = await import('../../../lib/api');
+            const response = await api.patientApi.uploadReport(formData, (progressEvent) => {
+                const progress = progressEvent.total
+                    ? Math.round((progressEvent.loaded * 100) / progressEvent.total)
+                    : 0;
+                setUploadProgress(progress);
             });
 
             if (response.data.success) {
@@ -177,17 +167,18 @@ export default function ReportsPage() {
 
     const handleDownload = async (reportId: string, fileName: string) => {
         try {
-            const token = localStorage.getItem('patientToken');
-            const response = await axios.get(`${API_URL}/patient/reports/${reportId}`, {
-                headers: { Authorization: `Bearer ${token}` }
-            });
+            const api = await import('../../../lib/api');
+            const response = await api.patientApi.getReportById(reportId);
 
             if (response.data.success) {
                 const fileUrl = response.data.data.fileUrl;
+                // Construct download URL using production API URL if needed
+                const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080';
+                const domain = baseUrl.replace(/\/api$/, '');
 
                 const downloadUrl = fileUrl.startsWith('http')
                     ? fileUrl
-                    : `http://localhost:8080${fileUrl}`;
+                    : `${domain}${fileUrl}`;
 
 
                 window.open(downloadUrl, '_blank');
@@ -209,10 +200,8 @@ export default function ReportsPage() {
         }
 
         try {
-            const token = localStorage.getItem('patientToken');
-            const response = await axios.delete(`${API_URL}/patient/reports/${reportId}`, {
-                headers: { Authorization: `Bearer ${token}` }
-            });
+            const api = await import('../../../lib/api');
+            const response = await api.patientApi.deleteReport(reportId);
 
             if (response.data.success) {
                 toast({

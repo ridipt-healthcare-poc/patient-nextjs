@@ -38,11 +38,13 @@ export default function PrescriptionCard({ prescription }: PrescriptionCardProps
             return;
         }
 
-        // For file downloads, use base URL without /api
-        const BASE_URL = 'http://localhost:8080';
+        // Use environment-aware base URL
+        const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080';
+        const domain = baseUrl.replace(/\/api$/, '');
+
         const fileUrl = prescription.fileUrl.startsWith('http')
             ? prescription.fileUrl
-            : `${BASE_URL}${prescription.fileUrl}`;
+            : `${domain}${prescription.fileUrl}`;
 
         window.open(fileUrl, '_blank');
     };

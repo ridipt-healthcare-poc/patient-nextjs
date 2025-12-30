@@ -82,19 +82,10 @@ export default function AppointmentDetailsPage() {
 
         setLoadingPrescription(true);
         try {
-            const token = localStorage.getItem('patientToken');
-            const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080/api';
-            const response = await fetch(
-                `${API_URL}/prescriptions/patient/${appointment.prescriptionId}`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                }
-            );
-            const data = await response.json();
-            if (data.success) {
-                setPrescription(data.data);
+            const api = await import('../../../../lib/api');
+            const response = await api.patientApi.getPrescriptionById(appointment.prescriptionId);
+            if (response.data.success) {
+                setPrescription(response.data.data);
             }
         } catch (error) {
             console.error('Error fetching prescription:', error);
