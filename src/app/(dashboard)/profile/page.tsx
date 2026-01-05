@@ -329,8 +329,11 @@ export default function ProfilePage() {
                         {isEditing ? (
                             <Input
                                 type="date"
+                                placeholder="dd/mm/yyyy"
                                 value={formData.dateOfBirth || ""}
                                 onChange={(e) => handleInputChange("dateOfBirth", e.target.value)}
+                                max={new Date().toISOString().split('T')[0]}
+                                min="1900-01-01"
                             />
                         ) : (
                             <Text fontWeight="500">

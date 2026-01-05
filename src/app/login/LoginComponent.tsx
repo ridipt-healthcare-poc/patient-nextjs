@@ -618,9 +618,11 @@ const Login = () => {
                                                             <Input
                                                                 name="dateOfBirth"
                                                                 type="date"
+                                                                placeholder="dd/mm/yyyy"
                                                                 value={signupData.dateOfBirth}
                                                                 onChange={handleChange}
                                                                 max={new Date().toISOString().split("T")[0]}
+                                                                min="1900-01-01"
                                                                 bg={inputBg}
                                                                 borderColor="rgba(6,182,212,0.25)"
                                                                 focusBorderColor={focusBorderColor}
