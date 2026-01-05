@@ -1,10 +1,10 @@
 [build]
-  command = ""
+  command = "npm run build"
   publish = ".next"
 
 [build.environment]
   NODE_VERSION = "18"
-  NEXT_PUBLIC_API_URL = "https://healthcare-backend-v2-xp4h.onrender.com/api"
+  NEXT_PUBLIC_API_URL = "https://healthcare-backend-v2-xp4h.onrender.com"
 
 [[plugins]]
   package = "@netlify/plugin-nextjs"
