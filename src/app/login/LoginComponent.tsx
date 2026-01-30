@@ -73,7 +73,7 @@ const Login = () => {
         gender: "",
         dateOfBirth: "",
     });
-    const [loginData, setLoginData] = useState({ mobile: "", otp: "" });
+    const [loginData, setLoginData] = useState({ email: "", otp: "" });
     const [signupErrors, setSignupErrors] = useState({});
     const [loginErrors, setLoginErrors] = useState({});
     const [localLoading, setLocalLoading] = useState(false);
@@ -104,9 +104,10 @@ const Login = () => {
 
     // Handle Send OTP
     const handleSendOTP = async () => {
-        if (!loginData.mobile || loginData.mobile.length !== 10) {
+        const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
+        if (!loginData.email || !emailRegex.test(loginData.email)) {
             toast({
-                title: "Please enter a valid 10-digit mobile number",
+                title: "Please enter a valid email address",
                 status: "warning",
                 duration: 3000,
                 isClosable: true,
@@ -116,12 +117,12 @@ const Login = () => {
 
         setLocalLoading(true);
         try {
-            await sendOTP(loginData.mobile);
+            await sendOTP(loginData.email);
             setOtpSent(true);
             setCountdown(60);
             toast({
                 title: "OTP Sent!",
-                description: "Please check your mobile for OTP (Use: 123456)",
+                description: "Please check your email for OTP",
                 status: "success",
                 duration: 4000,
                 isClosable: true,
@@ -170,7 +171,7 @@ const Login = () => {
                     });
                     return;
                 }
-                await loginWithOTP(loginData.mobile, loginData.otp);
+                await loginWithOTP(loginData.email, loginData.otp);
                 toast({
                     title: "Welcome Back!",
                     description: "You have successfully logged in",
@@ -638,22 +639,21 @@ const Login = () => {
                                                 <GridItem>
                                                     <FormControl isRequired>
                                                         <FormLabel color={PRIMARY_COLOR} fontSize="sm">
-                                                            Mobile Number
+                                                            Email Address
                                                         </FormLabel>
                                                         <InputGroup>
                                                             <InputLeftElement pointerEvents="none" color="teal.500">
-                                                                <FaPhoneAlt />
+                                                                <FaEnvelope />
                                                             </InputLeftElement>
                                                             <Input
-                                                                name="mobile"
-                                                                type="tel"
-                                                                placeholder="10-digit mobile number"
-                                                                value={loginData.mobile}
+                                                                name="email"
+                                                                type="email"
+                                                                placeholder="patient@example.com"
+                                                                value={loginData.email}
                                                                 onChange={handleChange}
                                                                 bg={inputBg}
                                                                 borderColor="rgba(6,182,212,0.25)"
                                                                 focusBorderColor={focusBorderColor}
-                                                                maxLength={10}
                                                             />
                                                         </InputGroup>
                                                     </FormControl>
@@ -668,7 +668,7 @@ const Login = () => {
                                                             w="full"
                                                             onClick={handleSendOTP}
                                                             isLoading={localLoading}
-                                                            isDisabled={countdown > 0 || !loginData.mobile}
+                                                            isDisabled={countdown > 0 || !loginData.email}
                                                             bgGradient={PRIMARY_GRADIENT}
                                                             color="white"
                                                             _hover={{

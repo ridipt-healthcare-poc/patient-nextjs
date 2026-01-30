@@ -17,8 +17,8 @@ interface User {
 interface AuthContextType {
     user: User | null;
     token: string | null;
-    sendOTP: (mobile: string) => Promise<void>;
-    loginWithOTP: (mobile: string, otp: string) => Promise<void>;
+    sendOTP: (email: string) => Promise<void>;
+    loginWithOTP: (email: string, otp: string) => Promise<void>;
     signup: (userData: SignupData) => Promise<void>;
     logout: () => void;
     loading: boolean;
@@ -52,18 +52,18 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setLoading(false);
     }, []);
 
-    const sendOTP = async (mobile: string) => {
+    const sendOTP = async (email: string) => {
         try {
-            const response = await axios.post(`${API_BASE_URL}/api/patients/auth/send-otp`, { mobile });
+            const response = await axios.post(`${API_BASE_URL}/api/patients/auth/send-otp`, { email });
             return response.data;
         } catch (error) {
             throw error;
         }
     };
 
-    const loginWithOTP = async (mobile: string, otp: string) => {
+    const loginWithOTP = async (email: string, otp: string) => {
         try {
-            const response = await axios.post(`${API_BASE_URL}/api/patients/auth/verify-otp`, { mobile, otp });
+            const response = await axios.post(`${API_BASE_URL}/api/patients/auth/verify-otp`, { email, otp });
             const { token: newToken, patient } = response.data;
 
             setToken(newToken);
