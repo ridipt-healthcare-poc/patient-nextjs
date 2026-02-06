@@ -64,7 +64,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const loginWithOTP = async (email: string, otp: string) => {
         try {
             const response = await axios.post(`${API_BASE_URL}/api/patients/auth/verify-otp`, { email, otp });
-            const { token: newToken, patient } = response.data;
+            // console.log("response", response.data.data)
+            const { token: newToken, patient } = response.data.data;
+            
+            // console.log("nnnnn", newToken)
 
             setToken(newToken);
             setUser(patient);
