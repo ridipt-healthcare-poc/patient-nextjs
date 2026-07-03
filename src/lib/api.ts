@@ -6,6 +6,7 @@ const getBaseUrl = () => {
   return baseUrl.endsWith('/api') ? baseUrl.slice(0, -4) : baseUrl;
 };
 
+
 const API_BASE_URL = getBaseUrl();
 
 const api = axios.create({
