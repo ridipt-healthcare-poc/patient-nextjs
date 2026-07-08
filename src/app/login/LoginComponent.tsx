@@ -51,7 +51,7 @@ import { useRouter } from "next/navigation";
 import { useAuth } from "../../contexts/AuthContext";
 import axios from "axios";
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://api.medsparsh.com';
 
 // 🎨 Patient-themed color palette (softer, warmer tones)
 const PRIMARY_COLOR = "#0F4C75";
