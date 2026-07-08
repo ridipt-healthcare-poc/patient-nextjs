@@ -79,6 +79,15 @@ export const patientApi = {
   // Update patient profile
   updateProfile: (profileData: any) => api.put('/api/patient-app/profile', profileData),
 
+  // Upload patient profile image
+  uploadProfileImage: (file: File) => {
+    const formData = new FormData();
+    formData.append('image', file);
+    return api.post('/api/patient-app/profile-image', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    });
+  },
+
   // Prescription endpoints
   getPrescriptions: () => api.get('/api/prescriptions/patient/my-prescriptions'),
   getPrescriptionById: (id: string) => api.get(`/api/prescriptions/patient/${id}`),

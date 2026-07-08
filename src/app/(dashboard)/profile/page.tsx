@@ -1,12 +1,13 @@
 'use client';
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
     Box,
     Container,
     Heading,
     Text,
     Button,
+    IconButton,
     VStack,
     HStack,
     SimpleGrid,
@@ -41,6 +42,7 @@ import {
     FiAlertCircle,
     FiUsers,
     FiCalendar,
+    FiCamera,
 } from "react-icons/fi";
 import { FaHospital } from "react-icons/fa";
 
@@ -53,6 +55,8 @@ export default function ProfilePage() {
     const [newAllergy, setNewAllergy] = useState("");
     const [newCondition, setNewCondition] = useState("");
     const [newMedication, setNewMedication] = useState("");
+    const [uploadingPhoto, setUploadingPhoto] = useState(false);
+    const fileInputRef = useRef<HTMLInputElement>(null);
 
     const toast = useToast();
     const cardBg = useColorModeValue("white", "gray.800");
@@ -124,6 +128,37 @@ export default function ProfilePage() {
     const handleCancel = () => {
         setFormData(profile);
         setIsEditing(false);
+    };
+
+    const handlePhotoSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+
+        setUploadingPhoto(true);
+        try {
+            const api = await import('../../../lib/api');
+            const response = await api.patientApi.uploadProfileImage(file);
+            const newImageUrl = response.data.data.profileImage;
+            setProfile((prev: any) => ({ ...prev, profileImage: newImageUrl }));
+            setFormData((prev: any) => ({ ...prev, profileImage: newImageUrl }));
+            toast({
+                title: "Profile photo updated",
+                status: "success",
+                duration: 3000,
+                isClosable: true,
+            });
+        } catch (error: any) {
+            toast({
+                title: "Error uploading photo",
+                description: error.response?.data?.message || "Failed to upload profile photo",
+                status: "error",
+                duration: 5000,
+                isClosable: true,
+            });
+        } finally {
+            setUploadingPhoto(false);
+            if (fileInputRef.current) fileInputRef.current.value = "";
+        }
     };
 
     const handleInputChange = (field: string, value: any) => {
@@ -207,12 +242,34 @@ export default function ProfilePage() {
                     bg="whiteAlpha.200"
                 />
                 <HStack spacing={6} align="center" position="relative">
-                    <Avatar
-                        size="2xl"
-                        name={profile.fullName}
-                        bg="teal.300"
-                        color="white"
-                    />
+                    <Box position="relative">
+                        <Avatar
+                            size="2xl"
+                            name={profile.fullName}
+                            src={profile.profileImage}
+                            bg="teal.300"
+                            color="white"
+                        />
+                        <IconButton
+                            aria-label="Change profile photo"
+                            icon={<FiCamera />}
+                            size="sm"
+                            colorScheme="teal"
+                            borderRadius="full"
+                            position="absolute"
+                            bottom={0}
+                            right={0}
+                            isLoading={uploadingPhoto}
+                            onClick={() => fileInputRef.current?.click()}
+                        />
+                        <Input
+                            ref={fileInputRef}
+                            type="file"
+                            accept="image/jpeg,image/jpg,image/png,image/webp"
+                            display="none"
+                            onChange={handlePhotoSelect}
+                        />
+                    </Box>
                     <VStack align="flex-start" spacing={2}>
                         <Heading fontSize={{ base: "2xl", md: "3xl" }}>
                             {profile.fullName}
