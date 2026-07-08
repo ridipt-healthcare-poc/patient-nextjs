@@ -39,7 +39,7 @@ export default function PrescriptionCard({ prescription }: PrescriptionCardProps
         }
 
         // Use environment-aware base URL
-        const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080';
+        const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'https://api.medsparsh.com';
         const domain = baseUrl.replace(/\/api$/, '');
 
         const fileUrl = prescription.fileUrl.startsWith('http')

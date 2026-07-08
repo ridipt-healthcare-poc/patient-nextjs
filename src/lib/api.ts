@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const getBaseUrl = () => {
-  const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080';
+  const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'https://api.medsparsh.com';
   // Ensure we don't have a trailing /api in the base URL, as endpoints add it
   return baseUrl.endsWith('/api') ? baseUrl.slice(0, -4) : baseUrl;
 };

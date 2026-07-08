@@ -173,7 +173,7 @@ export default function ReportsPage() {
             if (response.data.success) {
                 const fileUrl = response.data.data.fileUrl;
                 // Construct download URL using production API URL if needed
-                const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080';
+                const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'https://api.medsparsh.com';
                 const domain = baseUrl.replace(/\/api$/, '');
 
                 const downloadUrl = fileUrl.startsWith('http')
