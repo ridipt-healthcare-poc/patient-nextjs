@@ -71,7 +71,7 @@ export default function AppointmentsPage() {
     };
 
     const handleViewDetails = (appointmentId: string) => {
-        router.push(`/appointments/${appointmentId}`);
+        router.push(`/appointments/view?id=${appointmentId}`);
     };
 
     const handleQuickCancel = async (appointmentId: string) => {
