@@ -1,4 +1,9 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
+const nextConfig = {
+  output: "export",
+  env: {
+    NEXT_PUBLIC_API_URL: "https://api.medsparsh.com",
+  },
+};
 
 module.exports = nextConfig;
